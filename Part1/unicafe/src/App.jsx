@@ -26,6 +26,8 @@ function App() {
 
   let all = good + neutral + bad;
 
+  const isFeedback = good !== 0 || bad !== 0 || neutral !== 0;
+
   return (
     <>
       <h1>give feedback</h1>
@@ -36,7 +38,11 @@ function App() {
 
       <h1>statistics</h1>
 
-      <Statistics good={good} neutral={neutral} bad={bad} all={all} />
+      {isFeedback ? (
+        <Statistics good={good} neutral={neutral} bad={bad} all={all} />
+      ) : (
+        ""
+      )}
     </>
   );
 }
