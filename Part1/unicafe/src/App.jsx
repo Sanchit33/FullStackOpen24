@@ -1,20 +1,40 @@
 import { useState } from "react";
 
-const Button = (props) => {
+const Button = ({ handleClick, text }) => {
   // console.log(props);
-  return <button onClick={props.handleClick}>{props.text}</button>;
+  return <button onClick={handleClick}>{text}</button>;
 };
 
-const Statistics = (props) => {
-  // console.log(props);
+const Statistic = ({
+  good,
+  neutral,
+  bad,
+  all,
+  average,
+  positive,
+  isFeedback,
+}) => {
+  if (!isFeedback) {
+    return <p>No feedback given</p>;
+  }
   return (
     <>
-      <p>good {props.good}</p>
-      <p>neutral {props.neutral}</p>
-      <p>bad {props.bad}</p>
-      <p>all {props.all}</p>
-      <p>average {(props.good - props.bad) / props.all}</p>
-      <p>positive {(props.good / props.all) * 100}</p>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={all} />
+      <StatisticLine text="average" value={average} />
+      <StatisticLine text="positive" value={positive} />
+    </>
+  );
+};
+
+const StatisticLine = ({ text, value }) => {
+  return (
+    <>
+      <p>
+        {text} {value}
+      </p>
     </>
   );
 };
@@ -25,8 +45,9 @@ function App() {
   const [bad, setBad] = useState(0);
 
   let all = good + neutral + bad;
-
-  const isFeedback = good !== 0 || bad !== 0 || neutral !== 0;
+  let average = (good - bad) / all;
+  let positive = (good / all) * 100;
+  const isFeedback = all > 0;
 
   return (
     <>
@@ -38,11 +59,15 @@ function App() {
 
       <h1>statistics</h1>
 
-      {isFeedback ? (
-        <Statistics good={good} neutral={neutral} bad={bad} all={all} />
-      ) : (
-        ""
-      )}
+      <Statistic
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        all={all}
+        average={average}
+        positive={positive}
+        isFeedback={isFeedback}
+      />
     </>
   );
 }
