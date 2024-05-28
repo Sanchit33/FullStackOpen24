@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-const Quotes = ({ anecdote }) => {
+const Anecdote = ({ anecdote, vote }) => {
   return (
     <>
-      <h1>{anecdote}</h1>
+      <div>{anecdote}</div>
+      <div>has {vote} votes</div>
     </>
   );
 };
@@ -29,15 +30,24 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVote] = useState({});
+
+  const getRandomIndex = () => Math.floor(Math.random() * anecdotes.length);
+
+  const updateValue = (index) => {
+    const copy = { ...votes };
+    copy[index] = (copy[index] || 0) + 1;
+    setVote(copy);
+    console.log(votes);
+  };
   return (
     <div>
-      <Quotes anecdote={anecdotes[selected]} />
+      <Anecdote anecdote={anecdotes[selected]} vote={votes[selected] || 0} />
       <Button
-        handleClick={() =>
-          setSelected(Math.floor(Math.random() * anecdotes.length))
-        }
-        text="Next Quote"
+        handleClick={() => setSelected(getRandomIndex())}
+        text="next anecdote"
       />
+      <Button handleClick={() => updateValue(selected)} text="vote" />
     </div>
   );
 };
