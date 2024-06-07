@@ -19,10 +19,12 @@ const Content = ({ parts }) => (
 
 const Course = ({ course }) => {
   const parts = course.parts;
+  const sum = parts.reduce((a, b) => a + b.exercises, 0);
   return (
     <>
       <Header course={course.name} />
       <Content parts={parts} />
+      <Total sum={sum} />
     </>
   );
 };
