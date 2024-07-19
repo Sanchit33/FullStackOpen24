@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PersonForm from "./components/PersonForm.jsx";
 import Filter from "./components/Filter.jsx";
 import Person from "./components/Person.jsx";
-import axios from "axios";
+import persons from "./services/persons.js";
 
 function App() {
   const [person, setPerson] = useState([]);
@@ -12,19 +12,14 @@ function App() {
 
   useEffect(() => {
     console.log("effect!");
-    axios.get("http://localhost:3001/persons").then((res) => {
-      console.log("Promise fulfilled!");
-      setPerson(res.data);
-    });
+    persons.getAll().then((res) => setPerson(res.data));
   }, []);
 
   const addName = (event) => {
     event.preventDefault();
 
     const nameList = person.map((item) => item.name);
-    // console.log(nameList);
 
-    // console.log(event.target);
     if (comparingObj(nameList, name)) {
       alert(`${name} is already added to phonebook`);
       return;
@@ -34,13 +29,8 @@ function App() {
         number: number,
       };
 
-      axios
-        .post("http://localhost:3001/persons", newObj)
-        .then((res) => console.log(res));
-      setPerson(person.concat(newObj));
-      // console.log(newObj);
+      persons.create(newObj).then((res) => setPerson(person.concat(res.data)));
     }
-    // console.log(person);
   };
 
   const comparingObj = (array, newName) => {
@@ -48,13 +38,11 @@ function App() {
   };
 
   const handleNameChange = (event) => {
-    // console.log(event.target.value);
     const name = event.target.value;
     setName(name);
   };
 
   const handleNumberChange = (event) => {
-    // console.log(event.target.value);
     const number = event.target.value;
     setNumber(number);
   };
