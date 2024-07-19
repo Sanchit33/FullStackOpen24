@@ -33,6 +33,10 @@ function App() {
         name: name,
         number: number,
       };
+
+      axios
+        .post("http://localhost:3001/persons", newObj)
+        .then((res) => console.log(res));
       setPerson(person.concat(newObj));
       // console.log(newObj);
     }
