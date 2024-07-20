@@ -19,10 +19,31 @@ function App() {
     event.preventDefault();
 
     const nameList = person.map((item) => item.name);
+    const numberList = person.map((item) => item.number);
 
     if (comparingObj(nameList, name)) {
-      alert(`${name} is already added to phonebook`);
-      return;
+      if (comparingObj(numberList, number)) {
+        alert(`${name} is already added to phonebook`);
+        return;
+      } else {
+        if (
+          window.confirm(
+            `${name} is already added to phonebook, replace the old number with a new one?`
+          )
+        ) {
+          const n = person.find((item) => item.name === name);
+          const newObj = { ...n, number: number };
+          persons
+            .update(n.id, newObj)
+            .then((res) =>
+              setPerson(
+                person.map((item) => (item.id !== n.id ? item : res.data))
+              )
+            );
+        } else {
+          return;
+        }
+      }
     } else {
       const newObj = {
         name: name,
@@ -51,6 +72,15 @@ function App() {
     setSearch(event.target.value);
   };
 
+  const deletePerson = (id) => {
+    if (window.confirm("Are You Sure!")) {
+      persons.deletePerson(id);
+      setPerson(person.filter((p) => p.id !== id));
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
       <h1>Phonebook</h1>
@@ -63,7 +93,7 @@ function App() {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Person person={person} search={search} />
+      <Person person={person} search={search} deletePerson={deletePerson} />
     </>
   );
 }
