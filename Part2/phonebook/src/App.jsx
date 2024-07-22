@@ -3,12 +3,14 @@ import PersonForm from "./components/PersonForm.jsx";
 import Filter from "./components/Filter.jsx";
 import Person from "./components/Person.jsx";
 import persons from "./services/persons.js";
+import Notification from "./components/Notification.jsx";
 
 function App() {
   const [person, setPerson] = useState([]);
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
     console.log("effect!");
@@ -40,6 +42,10 @@ function App() {
                 person.map((item) => (item.id !== n.id ? item : res.data))
               )
             );
+          setErrorMessage(`${name} changed number to ${number}`);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
         } else {
           return;
         }
@@ -51,6 +57,10 @@ function App() {
       };
 
       persons.create(newObj).then((res) => setPerson(person.concat(res.data)));
+      setErrorMessage(`Added ${newObj.name}`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
@@ -84,6 +94,7 @@ function App() {
   return (
     <>
       <h1>Phonebook</h1>
+      <Notification message={errorMessage} />
       <Filter handleSearch={handleSearch} />
 
       <h2>Add a new</h2>
