@@ -10,7 +10,10 @@ function App() {
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState({
+    message: null,
+    color: null,
+  });
 
   useEffect(() => {
     console.log("effect!");
@@ -37,14 +40,24 @@ function App() {
           const newObj = { ...n, number: number };
           persons
             .update(n.id, newObj)
-            .then((res) =>
+            .then((res) => {
+              setErrorMessage({
+                message: `${name} changed number to ${number}`,
+                color: "green",
+              });
               setPerson(
                 person.map((item) => (item.id !== n.id ? item : res.data))
-              )
-            );
-          setErrorMessage(`${name} changed number to ${number}`);
+              );
+            })
+            .catch((error) => {
+              setErrorMessage({
+                message: `Information of ${name} has already been removed from server`,
+                color: "red",
+              });
+              setPerson(person.filter((item) => item.id !== n.id));
+            });
           setTimeout(() => {
-            setErrorMessage(null);
+            setErrorMessage({ message: null, color: null });
           }, 5000);
         } else {
           return;
@@ -57,9 +70,9 @@ function App() {
       };
 
       persons.create(newObj).then((res) => setPerson(person.concat(res.data)));
-      setErrorMessage(`Added ${newObj.name}`);
+      setErrorMessage({ message: `Added ${newObj.name}`, color: "green" });
       setTimeout(() => {
-        setErrorMessage(null);
+        setErrorMessage({ message: null, color: null });
       }, 5000);
     }
   };
@@ -94,7 +107,7 @@ function App() {
   return (
     <>
       <h1>Phonebook</h1>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage.message} color={errorMessage.color} />
       <Filter handleSearch={handleSearch} />
 
       <h2>Add a new</h2>
