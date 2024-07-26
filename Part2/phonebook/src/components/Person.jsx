@@ -4,6 +4,7 @@ function Person({ person, search, deletePerson }) {
         p.name.toLowerCase().startsWith(search.toLowerCase())
       )
     : person;
+  console.log(person);
 
   return (
     <>
