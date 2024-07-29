@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import countries from "./services/countries";
+import CountryDetails from "./components/CountryDetails";
+import CountriesList from "./components/CountriesList";
 
 function App() {
   const [value, setValue] = useState("");
   const [country, setCountry] = useState([]);
-  const [con, setCon] = useState([]);
+  const [show, setShow] = useState(null);
 
   useEffect(() => {
     countries.getAll().then((res) => setCountry(res));
@@ -12,38 +14,31 @@ function App() {
 
   const handleChange = (event) => {
     setValue(event.target.value);
-    const filter = country.filter((item) =>
-      item.name.common
-        .toLowerCase()
-        .startsWith(event.target.value.toLowerCase())
-    );
-    setCon(filter);
+    setShow(null);
   };
+
+  const handleShow = (item) => {
+    setShow(item);
+  };
+
+  const filter = value
+    ? country.filter((item) =>
+        item.name.common.toLowerCase().startsWith(value.toLowerCase())
+      )
+    : [];
 
   return (
     <>
       find countries
       <input type="text" value={value} onChange={handleChange} />
-      {con.length > 10 ? (
+      {filter.length > 10 ? (
         <div>Too many matches, specify another filter</div>
-      ) : con.length === 1 ? (
-        con.map((item) => (
-          <div key={item.name.common}>
-            <h1>{item.name.common}</h1>
-            <div>capital {item.capital}</div>
-            <div>area {item.area}</div>
-            <h2>languages</h2>
-            <ul>
-              {Object.values(item.languages).map((lang) => (
-                <li key={lang}>{lang}</li>
-              ))}
-            </ul>
-            <img src={item.flags.png} alt={`${item.name.common} flag`} />
-          </div>
-        ))
+      ) : filter.length === 1 ? (
+        <CountryDetails country={filter[0]} />
       ) : (
-        con.map((item) => <div key={item.name.common}>{item.name.common}</div>)
+        <CountriesList country={filter} handleShow={handleShow} />
       )}
+      {show ? <CountryDetails country={show} /> : null}
     </>
   );
 }

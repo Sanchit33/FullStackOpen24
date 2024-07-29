@@ -8,4 +8,4 @@ const getAll = async() =>{
     return res;
 }
 
-export default {getOne, getAll}
+export default {getAll}
