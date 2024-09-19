@@ -3,7 +3,11 @@ const morgan = require('morgan')
 
 const app = express()
 
-app.use(morgan('combined'))
+// app.use(morgan('combined'))
+
+morgan.token('data', (req,res) => {return JSON.stringify(req.body)})
+
+app.use(morgan(':method :url :response-time :data'))
 
 let persons = [
     { 
