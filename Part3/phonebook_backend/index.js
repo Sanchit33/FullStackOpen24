@@ -5,9 +5,13 @@ const app = express()
 
 // app.use(morgan('combined'))
 
+const cors = require('cors')
+app.use(cors())
+
 morgan.token('data', (req,res) => {return JSON.stringify(req.body)})
 
 app.use(morgan(':method :url :response-time :data'))
+
 
 let persons = [
     { 
