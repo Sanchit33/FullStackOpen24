@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const app = express()
 
 // app.use(morgan('combined'))
+app.use(express.static('dist'))
 
 const cors = require('cors')
 app.use(cors())
@@ -37,6 +38,7 @@ let persons = [
 ]
 
 app.use(express.json())
+
 
 app.get('/api/persons', (req, res) => {
     res.json(persons)
