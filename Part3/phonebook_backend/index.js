@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 require('dotenv').config()
 const person = require('./models/person')
 
@@ -8,9 +9,9 @@ const app = express()
 // app.use(morgan('combined'))
 app.use(express.static('dist'))
 
-const cors = require('cors')
 app.use(cors())
 
+app.use(express.json())
 morgan.token('data', (req,res) => {return JSON.stringify(req.body)})
 
 app.use(morgan(':method :url :response-time :data'))
@@ -39,8 +40,6 @@ let persons = [
     }
 ]
 
-app.use(express.json())
-
 
 app.get('/api/persons', (req, res) => {
     person.find({}).then(persons => {
@@ -52,17 +51,20 @@ app.get('/info', (req,res) =>{
     res.send(`<p>Phonebook has info for ${persons.length} people</p><br/>
     <p>${new Date()}</p>`)
 })
-
 app.get('/api/persons/:id', (req, res) => {
    person.findById(req.params.id).then(person => {
        res.json(person)
    })
 })
 
-app.delete('/api/persons/:id', (req, res) => {
-    const id = req.params.id
-    persons = persons.filter(person => person.id !== id)
-    res.status(204).end()
+app.delete('/api/persons/:id', (req, res, next) => {
+    person.findByIdAndDelete(req.params.id)
+    .then((result) => {
+        res.status(204).end()
+
+    }).catch(error => {
+        next(error)
+    })
 })
 
 app.post('/api/persons', (req, res) => {
