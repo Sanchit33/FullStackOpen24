@@ -89,6 +89,16 @@ app.post('/api/persons', (req, res) => {
     })
 })
 
+const errorHandler = (error, req, res, next) => {
+    console.log(error.message)
+    if (error.name === 'CastError') {
+        return res.status(400).send({error:'malformatted id'})
+    }
+    next(error)
+}
+
+app.use(errorHandler)
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
