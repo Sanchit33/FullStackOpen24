@@ -41,6 +41,7 @@ let persons = [
 ]
 
 
+
 app.get('/api/persons', (req, res) => {
     person.find({}).then(persons => {
         res.json(persons)
@@ -55,6 +56,22 @@ app.get('/api/persons/:id', (req, res) => {
    person.findById(req.params.id).then(person => {
        res.json(person)
    })
+})
+
+app.put('/api/persons/:id', (req, res, next) =>{
+    const body = req.body
+
+    const newPerson = {
+        name: body.name,
+        number: body.number
+    }
+
+    person.findByIdAndUpdate(req.params.id, newPerson, {new:true})
+    .then(updatedPerson =>{
+        res.json(updatedPerson)
+    }).catch(error =>{
+        next(error)
+    })   
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
@@ -89,6 +106,10 @@ app.post('/api/persons', (req, res) => {
     })
 })
 
+const unknownEndPoint = (req, res) => {
+    res.status(404).send({error:'unknown endpoint'})
+}
+
 const errorHandler = (error, req, res, next) => {
     console.log(error.message)
     if (error.name === 'CastError') {
@@ -97,6 +118,7 @@ const errorHandler = (error, req, res, next) => {
     next(error)
 }
 
+app.use(unknownEndPoint)
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000;
