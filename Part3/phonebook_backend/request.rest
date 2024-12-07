@@ -1,6 +1,9 @@
 GET http://localhost:3000/api/persons
 
 ###
+GET http://localhost:3000/api/persons/672465ae1179fd2db27cf3cf
+
+###
 POST http://localhost:3000/api/persons
 content-type:application/json
 
@@ -10,4 +13,22 @@ content-type:application/json
 }
 
 ###
-DELETE http://localhost:3000/api/persons/67245919e46a124a3a825553
+DELETE http://localhost:3000/api/persons/673324716e17e2e6980c5a8a
+
+###
+PUT http://localhost:3000/api/persons/67332ecff9236a0e4e9a79ea
+Content-Type:application/json
+
+{
+      "name":"Shree Kadam",
+      "number": "222222222222"
+}
+
+###
+POST http://localhost:3000/api/persons
+content-type:application/json
+
+{
+      "content":"lol",
+      "important":true
+}
