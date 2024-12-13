@@ -1,0 +1,28 @@
+{
+  "name": "bloglist_backend",
+  "version": "1.0.0",
+  "description": "blog list app that saves information about a blog that user felt useful, for each blog it will store author, title, URL and the amount of upvote of the user of the application.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "blog",
+    "list",
+    "app"
+  ],
+  "author": "Sanchit33",
+  "license": "ISC",
+  "dependencies": {
+    "bloglist_backend": "file:",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.8.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
