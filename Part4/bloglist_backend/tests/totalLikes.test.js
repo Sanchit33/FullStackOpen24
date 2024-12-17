@@ -80,3 +80,44 @@ describe('totalLikes', () => {
         assert.strictEqual(result, 36)
     })
 })
+
+describe('favoriteBlog', () => {
+  test('when list has no blog', () => {
+      const result = listHelper.favoriteBlog([])
+
+      assert.strictEqual(result, 0)
+  })
+
+  test('when list has only one blog', () => {
+      const result = listHelper.favoriteBlog([{
+          _id: '5a422a851b54a676234d17f7',
+          title: 'React patterns',    
+          author: 'Michael Chan',
+          url: 'https://reactpatterns.com/',
+          likes: 7,
+          __v: 0
+      }]) 
+
+      assert.deepStrictEqual(result, {
+          _id: '5a422a851b54a676234d17f7',
+          title: 'React patterns',    
+          author: 'Michael Chan',
+          url: 'https://reactpatterns.com/',
+          likes: 7,
+          __v: 0
+      })
+  })
+
+  test('when list has many blogs', () => {
+      const result = listHelper.favoriteBlog(blogs)
+
+      assert.deepStrictEqual(result, {
+          _id: "5a422b3a1b54a676234d17f9",
+          title: "Canonical string reduction",
+          author: "Edsger W. Dijkstra",
+          url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+          likes: 12,
+          __v: 0
+      })
+  } )
+})
