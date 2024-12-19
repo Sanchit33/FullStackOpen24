@@ -148,4 +148,33 @@ describe('mostBlogs', () => {
           author: "Robert C. Martin",
           blogs: 3})
   } )
-}) 
+})
+
+describe('mostLikes', () => {
+  test('when list has no blog', () => {
+      const result = listHelper.mostLikes([])
+
+      assert.strictEqual(result, 0)
+  })
+
+  test('when list has only one blog', () => {
+    const result = listHelper.mostLikes([{
+        author: 'Michael Chan',
+        likes: 7, 
+    }]) 
+
+    assert.deepStrictEqual(result, {
+        author: "Michael Chan",
+        likes: 7
+    })
+  })
+
+  test('when list has many blogs', () => {
+    const result = listHelper.mostLikes(blogs)
+
+    assert.deepStrictEqual(result, {
+        author: "Edsger W. Dijkstra",
+        likes: 17
+    })
+  })
+})
