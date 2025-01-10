@@ -4,9 +4,9 @@
   "description": "blog list app that saves information about a blog that user felt useful, for each blog it will store author, title, URL and the amount of upvote of the user of the application.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "node --test",
-    "dev": "nodemon index.js"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test node --test"
   },
   "keywords": [
     "blog",
@@ -18,12 +18,14 @@
   "dependencies": {
     "bloglist_backend": "file:",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "lodash": "^4.17.21",
     "mongoose": "^8.8.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "supertest": "^7.0.0"
   }
 }
