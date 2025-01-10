@@ -38,6 +38,12 @@ test('the first blog is about React patterns', async() => {
     assert(contents.includes('React patterns'), true)
 })
 
+test('the blog post has unique identifier property named as id', async() => {
+    const res = await hepler.blogsInDb()
+
+    assert("id" in res[0], true)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
