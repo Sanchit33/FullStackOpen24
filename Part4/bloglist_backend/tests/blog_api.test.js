@@ -40,9 +40,9 @@ test('the first blog is about React patterns', async() => {
 })
 
 test('the blog post has unique identifier property named as id', async() => {
-    const res = await helper.blogsInDb()
+    const res = await api.get('/api/blogs')
 
-    assert("id" in res[0], true)
+    assert("id" in res.body[0], true)
 })
 
 test('valid blog can be added', async() => {
@@ -59,11 +59,11 @@ test('valid blog can be added', async() => {
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-    const res = await api.get('/api/blogs')
+    const res = await helper.blogsInDb()
 
-    const contents = res.body.map(blog => blog.title)
+    const contents = res.map(blog => blog.title)
 
-    assert.strictEqual(res.body.length, helper.intialBlogs.length + 1)
+    assert.strictEqual(res.length, helper.intialBlogs.length + 1)
     assert(contents.includes('React Native Pattern'), true)
 
 })
@@ -81,11 +81,45 @@ test('if like is not given than it should return 0', async() =>{
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-    const res = await api.get('/api/blogs')
-    const recentBlog = res.body[helper.intialBlogs.length]
-    console.log(recentBlog)
+    const res = await helper.blogsInDb()
+    const recentBlog = res[helper.intialBlogs.length]
 
     assert(recentBlog.likes === 0, true)
+})
+
+test('blog without title is not added', async() => {
+    const newBlog = {
+        author: "Sanchit Shinde",
+        url:"www.https//sanchitblogs.com",
+        likes: 3,
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+    const res = await helper.blogsInDb()
+
+    assert(res.length === helper.intialBlogs.length, true)
+
+})
+
+test('blog without url is not added', async() => {
+    const newBlog = {
+        title:"Type-Script",
+        author: "Sanchit Shinde",
+        likes: 3,
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+    const res = await helper.blogsInDb()
+
+    assert(res.length === helper.intialBlogs.length, true)
 })
 
 after(async () => {
