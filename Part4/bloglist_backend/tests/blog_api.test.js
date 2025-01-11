@@ -68,6 +68,26 @@ test('valid blog can be added', async() => {
 
 })
 
+test('if like is not given than it should return 0', async() =>{
+    const newBlog = {
+        title: "React Native Pattern",
+        author: "Sanchit Shinde",
+        url: "https://reactpatterns.com/",
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+    const res = await api.get('/api/blogs')
+    const recentBlog = res.body[helper.intialBlogs.length]
+    console.log(recentBlog)
+
+    assert(recentBlog.likes === 0, true)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
