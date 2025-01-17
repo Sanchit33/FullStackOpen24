@@ -131,6 +131,28 @@ describe('when there are initially some notes saved', () => {
 
         })
     })
+
+    describe('updating the blog', () => {
+        test('updating the information of an individual blog', async()=>{
+            const blogs = await helper.blogsInDb()
+            const blogToUpdate = blogs[0]
+
+            const updatedBlog = {
+                ...blogToUpdate,
+                likes:blogToUpdate.likes + 1
+            }
+
+            await api.put(`/api/blogs/${blogToUpdate.id}`)
+            .send(updatedBlog)
+            .expect(200)
+
+            const blogAfterUpdate = await helper.blogsInDb()
+            console.log(updatedBlog)
+            console.log(blogAfterUpdate[0])
+
+            assert.strictEqual(blogAfterUpdate[0].likes, updatedBlog.likes)
+        })
+    })
 })
 
 
