@@ -9,7 +9,8 @@ Content-Type: application/json
     "title":"something",
     "author":"something",
     "url":"something",
-    "likes":1
+    "likes":1,
+    "userId":"67aafa4acffc511f8df723d5"
 }
 
 ###
