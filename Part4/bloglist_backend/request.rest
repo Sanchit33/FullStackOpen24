@@ -4,13 +4,13 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YWFmYTQ1Y2ZmYzUxMWY4ZGY3MjNkMyIsImlhdCI6MTczOTQyNzI5Mn0.clziDmU-Hq-mRDYTXSvogMIH0kcJ7dvDLoj51ZAyg1o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YWFmYTQ1Y2ZmYzUxMWY4ZGY3MjNkMyIsImlhdCI6MTczOTQ1NDk4M30.rinCw_X2LAfb9lavPW_QYyQwJ_wZiaskrIJBsIOORQA
 
 {
-    "title":"something root",
-    "author":"something",
-    "url":"something",
-    "likes":1,
+    "title": "something root 1",
+    "author": "something",
+    "url": "something",
+    "likes": 1
 }
 
 ###
