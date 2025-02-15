@@ -7,7 +7,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YWFmYTQ1Y2ZmYzUxMWY4ZGY3MjNkMyIsImlhdCI6MTczOTQ1NDk4M30.rinCw_X2LAfb9lavPW_QYyQwJ_wZiaskrIJBsIOORQA
 
 {
-    "title": "something root 1",
+    "title": "something root 2",
     "author": "something",
     "url": "something",
     "likes": 1
@@ -36,3 +36,8 @@ Content-Type: application/json
     "username": "root",
     "password": "sanchit33"
 }
+
+###
+DELETE http://localhost:3003/api/blogs/67b0495bed3f2a2c54c2aa65
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YWFmYTQ1Y2ZmYzUxMWY4ZGY3MjNkMyIsImlhdCI6MTczOTQ1NDk4M30.rinCw_X2LAfb9lavPW_QYyQwJ_wZiaskrIJBsIOORQA
