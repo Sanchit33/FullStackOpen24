@@ -11,6 +11,7 @@ const App = () => {
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -38,7 +39,10 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      console.log("Wrong credentials");
+      setMessage({ text: "username or password is incorrect", type: "error" });
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
@@ -115,15 +119,35 @@ const App = () => {
         author,
         url,
       });
+      setMessage({
+        type: "success",
+        text: `a new blog ${blog.title} by ${blog.author} added`,
+      });
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
       setBlogs(blogs.concat(blog));
+      setAuthor("");
+      setTitle("");
+      setUrl("");
     } catch (error) {
-      console.log(error);
+      setMessage({ text: "error adding blog", type: "error" });
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
+  const Notification = ({ type, message }) => {
+    if (message === null || type === null) {
+      return null;
+    }
+    return <div className={type}>{message}</div>;
+  };
   return (
     <div>
       <h2>blogs</h2>
+      <Notification type={message?.type} message={message?.text} />
       {user === null ? (
         loginForm()
       ) : (
