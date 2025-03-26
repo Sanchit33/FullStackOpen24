@@ -7,6 +7,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -18,6 +21,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+      blogService.setToken(user.token);
     }
   }, []);
 
@@ -29,6 +33,7 @@ const App = () => {
         password,
       });
       window.localStorage.setItem("loggedBlogListUser", JSON.stringify(user));
+      blogService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
@@ -66,6 +71,56 @@ const App = () => {
     </form>
   );
 
+  const blogForm = () => (
+    <>
+      <h2>create new</h2>
+      <form onSubmit={handleAddBlog}>
+        <div>
+          title:
+          <input
+            type="text"
+            value={title}
+            name="title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+        <div>
+          author:
+          <input
+            type="text"
+            value={author}
+            name="author"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </div>
+        <div>
+          url:
+          <input
+            type="text"
+            value={url}
+            name="url"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+        </div>
+        <button type="submit">create</button>
+      </form>
+    </>
+  );
+
+  const handleAddBlog = async (event) => {
+    event.preventDefault();
+    try {
+      const blog = await blogService.create({
+        title,
+        author,
+        url,
+      });
+      setBlogs(blogs.concat(blog));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -78,6 +133,7 @@ const App = () => {
           </p>
         </div>
       )}
+      {user && blogForm()}
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
