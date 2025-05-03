@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import LoginForm from "./components/LoginForm";
+import Togglable from "./components/Togglable";
+import BlogForm from "./components/BlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -46,70 +49,40 @@ const App = () => {
     }
   };
 
+  const loginForm = () => {
+    return (
+      <Togglable buttonLabel="login">
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleLogin={handleLogin}
+        />
+      </Togglable>
+    );
+  };
+
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogListUser");
     setUser(null);
   };
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+  const blogForm = () => {
+    return (
+      <Togglable buttonLabel="Create new blog">
+        <BlogForm
+          title={title}
+          author={author}
+          url={url}
+          handleTitleChange={({ target }) => setTitle(target.value)}
+          handleAuthorChange={({ target }) => setAuthor(target.value)}
+          handleUrlChange={({ target }) => setUrl(target.value)}
+          handleAddBlog={handleAddBlog}
         />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  );
-
-  const blogForm = () => (
-    <>
-      <h2>create new</h2>
-      <form onSubmit={handleAddBlog}>
-        <div>
-          title:
-          <input
-            type="text"
-            value={title}
-            name="title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-          author:
-          <input
-            type="text"
-            value={author}
-            name="author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          url:
-          <input
-            type="text"
-            value={url}
-            name="url"
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-        <button type="submit">create</button>
-      </form>
-    </>
-  );
+      </Togglable>
+    );
+  };
 
   const handleAddBlog = async (event) => {
     event.preventDefault();
