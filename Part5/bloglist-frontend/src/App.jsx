@@ -5,14 +5,12 @@ import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
 
@@ -71,27 +69,14 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel="Create new blog">
-        <BlogForm
-          title={title}
-          author={author}
-          url={url}
-          handleTitleChange={({ target }) => setTitle(target.value)}
-          handleAuthorChange={({ target }) => setAuthor(target.value)}
-          handleUrlChange={({ target }) => setUrl(target.value)}
-          handleAddBlog={handleAddBlog}
-        />
+        <BlogForm createNewBlog={creatNewBlog} />
       </Togglable>
     );
   };
 
-  const handleAddBlog = async (event) => {
-    event.preventDefault();
+  const creatNewBlog = async (newBlog) => {
     try {
-      const blog = await blogService.create({
-        title,
-        author,
-        url,
-      });
+      const blog = await blogService.create(newBlog);
       setMessage({
         type: "success",
         text: `a new blog ${blog.title} by ${blog.author} added`,
@@ -100,9 +85,6 @@ const App = () => {
         setMessage(null);
       }, 5000);
       setBlogs(blogs.concat(blog));
-      setAuthor("");
-      setTitle("");
-      setUrl("");
     } catch (error) {
       setMessage({ text: "error adding blog", type: "error" });
       setTimeout(() => {
@@ -111,12 +93,6 @@ const App = () => {
     }
   };
 
-  const Notification = ({ type, message }) => {
-    if (message === null || type === null) {
-      return null;
-    }
-    return <div className={type}>{message}</div>;
-  };
   return (
     <div>
       <h2>blogs</h2>
