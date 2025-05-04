@@ -1,0 +1,56 @@
+GET http://localhost:3003/api/blogs
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YWFmYTQ1Y2ZmYzUxMWY4ZGY3MjNkMyIsImlhdCI6MTc0NjI3NzEwNSwiZXhwIjoxNzQ2MjgwNzA1fQ._-VNN_aeGAThpqQDh85VWaE2-QftVNQFUcSGbFXD2aU
+
+{
+    "title":"React patterns",
+    "author":"Michael Chan",
+    "url":"https://reactpatterns.com/",
+    "likes": 7
+}
+
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username":"ro",
+    "name": "sanchit",
+    "password": "sanchit33"
+
+}
+
+###
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "root",
+    "password": "sanchit33"
+}
+
+###
+PUT http://localhost:3003/api/blogs/67e25ab7d71189ce2228d3ab
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YWFmYTQ1Y2ZmYzUxMWY4ZGY3MjNkMyIsImlhdCI6MTc0NjMzNzUyNywiZXhwIjoxNzQ2MzQxMTI3fQ.RVSJVcu_s7WSGohUaS9wykc--M68hGcDHSN-Cv5fy0U
+
+{
+    "title":"React patterns",
+    "author":"Michael Chan",
+    "url":"https://reactpatterns.com/",
+    "likes": 11
+}
+
+###
+DELETE http://localhost:3003/api/blogs/67e43f786e69d09f4b52d03b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YWFmYTQ1Y2ZmYzUxMWY4ZGY3MjNkMyIsImlhdCI6MTc0NjI3NzEwNSwiZXhwIjoxNzQ2MjgwNzA1fQ._-VNN_aeGAThpqQDh85VWaE2-QftVNQFUcSGbFXD2aU
