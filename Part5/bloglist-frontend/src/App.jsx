@@ -95,7 +95,10 @@ const App = () => {
 
   const handleLike = async (id) => {
     const blogUpdate = blogs.find((b) => b.id === id);
-    const updatedBlog = { ...blogUpdate, likes: blogUpdate.likes + 1 };
+    const updatedBlog = {
+      ...blogUpdate,
+      likes: blogUpdate.likes + 1,
+    };
     try {
       const updated = await blogService.update(id, updatedBlog);
       setBlogs(blogs.map((b) => (b.id !== id ? b : updated)));
@@ -107,7 +110,10 @@ const App = () => {
         setMessage(null);
       }, 5000);
     } catch (error) {
-      setMessage({ text: error.data, type: "error" });
+      setMessage({
+        type: "error",
+        text: "Login to like a blog",
+      });
       setTimeout(() => {
         setMessage(null);
       }, 5000);
