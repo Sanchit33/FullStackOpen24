@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleDelete, username }) => {
   const [visible, setVisible] = useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -23,6 +23,9 @@ const Blog = ({ blog, handleLike }) => {
             {blog.likes} likes <button onClick={handleLike}>like</button>
           </p>
           <p>{blog.user.username}</p>
+          {blog.user.username === username && (
+            <button onClick={handleDelete}>remove</button>
+          )}
         </div>
       )}
     </div>

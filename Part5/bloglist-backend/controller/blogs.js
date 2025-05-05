@@ -48,7 +48,7 @@ blogRouter.delete(`/:id`, middleware.userExtractor, async(req, res) => {
         res.status(404).json({error: 'blog not found'})
     }
 
-    if(blog.user.toString() !== user.id){
+    if(blog.user.toString() !== user.id.toString()){
         res.status(403).json({error: 'forbidden'})
     }
 
