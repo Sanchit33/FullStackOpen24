@@ -29,7 +29,7 @@ test(" blog renders the blog's title and author, but does not render its URL or 
   expect(element4).toBeNull();
 });
 
-test("clicking the button shows the blog's URL and number of likes", async () => {
+test("clicking the button view the blog's URL and number of likes", async () => {
   const blog = {
     title: "Test Blog",
     author: "Test Author",
@@ -54,4 +54,33 @@ test("clicking the button shows the blog's URL and number of likes", async () =>
 
   expect(element3).toBeDefined();
   expect(element4).toBeDefined();
+});
+
+test("clicking like button twice, the event handler the component received as props is called twice", async () => {
+  const blog = {
+    title: "Test Blog",
+    author: "Test Author",
+    url: "http://testurl.com",
+    likes: 5,
+    user: {
+      username: "test username",
+      name: "test name",
+    },
+  };
+
+  const mockHandlerForLike = vi.fn();
+
+  render(<Blog key={blog.id} blog={blog} handleLike={mockHandlerForLike} />);
+
+  const user = userEvent.setup();
+  const button = screen.getByText("view");
+  await user.click(button);
+
+  const likeButton = screen.getByText("like");
+  await user.click(likeButton);
+  await user.click(likeButton);
+
+  screen.debug();
+
+  expect(mockHandlerForLike.mock.calls).toHaveLength(2);
 });

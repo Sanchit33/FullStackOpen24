@@ -69,12 +69,12 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel="Create new blog">
-        <BlogForm createNewBlog={creatNewBlog} />
+        <BlogForm createNewBlog={createNewBlog} />
       </Togglable>
     );
   };
 
-  const creatNewBlog = async (newBlog) => {
+  const createNewBlog = async (newBlog) => {
     try {
       const blog = await blogService.create(newBlog);
       setMessage({
