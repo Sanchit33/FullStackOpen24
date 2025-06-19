@@ -158,7 +158,8 @@ const App = () => {
       ) : (
         <div>
           <p>
-            {user.name} logged-in <button onClick={handleLogout}>Logout</button>
+            {user.name} logged in
+            <button onClick={handleLogout}>Logout</button>
           </p>
         </div>
       )}
