@@ -52,11 +52,31 @@ describe('Blog app', () => {
 
         test('A blog can be liked', async({page}) => {
             await createBlog(page, 'Iran-Israel Conflict', 'Sanchit', 'http://localhost:3003')
+
             await page.getByRole('button', {name:'view'}).click()
             await page.getByRole('button', {name:'like'}).click()
 
             await expect(page.getByText('1 likes')).toBeVisible()
 
+        })
+
+        test('User who added the blog can delete the blog', async({page}) => {
+            await createBlog(page, 'India-Pakistan Conflict', 'Sanchit', 'http://localhost:3003')
+            await createBlog(page, 'US-Iran Conflict', 'Sanchit', 'http://localhost:3003')
+            
+            const blog = page.locator('.blog:has-text("India-Pakistan Conflict")')
+            
+            await blog.getByRole('button', {name:'view'}).click()
+
+            const removeBtn = page.getByRole('button', {name: 'remove'})
+            await expect(removeBtn).toBeVisible();
+
+            page.on('dialog', async (dialog) => {
+                await dialog.accept()
+            })
+
+            await removeBtn.click()
+            await expect(blog).not.toBeVisible()
         })
     })
 })
