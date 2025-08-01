@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 
+const getId = () => (100000 * Math.random()).toFixed(0);
+
 const App = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -11,24 +13,40 @@ const App = () => {
     });
   };
 
+  const addAnecdote = (event) => {
+    event.preventDefault();
+    console.log(event.target.anecdote.value);
+    const content = event.target.anecdote.value;
+    dispatch({
+      type: "ADD_ANECDOTE",
+      payload: {
+        content,
+        votes: 0,
+        id: getId(),
+      },
+    });
+  };
+
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
-          <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+      {anecdotes
+        .sort((a, b) => b.votes - a.votes)
+        .map((anecdote) => (
+          <div key={anecdote.id}>
+            <div>{anecdote.content}</div>
+            <div>
+              has {anecdote.votes}
+              <button onClick={() => vote(anecdote.id)}>vote</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
       <h2>create new</h2>
-      <form>
+      <form onSubmit={addAnecdote}>
         <div>
-          <input />
+          <input name="anecdote" />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   );
