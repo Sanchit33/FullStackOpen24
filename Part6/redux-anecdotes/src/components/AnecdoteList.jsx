@@ -3,7 +3,17 @@ import { votes } from "../reducers/anecdoteReducer";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
-  const anecdotes = useSelector((state) => state);
+
+  const searchFilter = (a, b) => {
+    return a.content.toLowerCase().includes(b.toLowerCase());
+  };
+
+  const anecdotes = useSelector((state) => {
+    if (state.filter) {
+      return state.anecdote.filter((a) => searchFilter(a, state.filter));
+    }
+    return state.anecdote;
+  });
 
   const voting = (id) => {
     dispatch(votes(id));
