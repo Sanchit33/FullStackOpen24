@@ -8,8 +8,9 @@ const getAll = async () => {
 }
 
 const createAnecdote = async (anecdote) => {
-    const res = await axios.post(baseUrl, anecdote)
+    const obj = {content:anecdote, vote:0}
+    const res = await axios.post(baseUrl, obj)
     return res.data
-} 
+}
 
 export default {getAll, createAnecdote}
