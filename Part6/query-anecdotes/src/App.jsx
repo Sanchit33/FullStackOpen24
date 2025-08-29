@@ -4,13 +4,20 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAnecdotes, createAnecdotes, updateVote } from "./requests";
 
 const App = () => {
+  const result = useQuery({
+    queryKey: ["anecdotes"],
+    queryFn: getAnecdotes,
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
+
   const queryClient = useQueryClient();
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdotes,
     onSuccess: (newAnecdote) => {
-      const notes = queryClient.getQueryData(["anecdotes"]);
-      queryClient.setQueryData(["anecdotes"], notes.concat(newAnecdote));
+      const anecdotes = queryClient.getQueryData(["anecdotes"]);
+      queryClient.setQueryData(["anecdotes"], anecdotes.concat(newAnecdote));
     },
   });
 
@@ -30,13 +37,6 @@ const App = () => {
     newAnecdoteMutation.mutate(obj);
   };
 
-  const result = useQuery({
-    queryKey: ["anecdotes"],
-    queryFn: getAnecdotes,
-    retry: 1,
-    refetchOnWindowFocus: false,
-  });
-
   if (result.isLoading) {
     return <div>loading data...</div>;
   }
@@ -54,15 +54,16 @@ const App = () => {
       <Notification />
       <AnecdoteForm onCreate={handleNewAnecdote} />
 
-      {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
-          <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote)}>vote</button>
+      {anecdotes &&
+        anecdotes.map((anecdote) => (
+          <div key={anecdote.id}>
+            <div>{anecdote.content}</div>
+            <div>
+              has {anecdote.votes}
+              <button onClick={() => handleVote(anecdote)}>vote</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };
