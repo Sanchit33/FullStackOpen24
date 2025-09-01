@@ -24,6 +24,12 @@ const AnecdoteForm = () => {
         payload: `anecdote ${newAnecdote.content} created`,
       });
     },
+    onError: (error) => {
+      notificationDispatch({
+        type: "show",
+        payload: error.response.data.error,
+      });
+    },
   });
 
   return (
